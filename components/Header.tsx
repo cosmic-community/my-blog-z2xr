@@ -22,6 +22,9 @@ export default function Header() {
             <Link href="/authors" className="text-gray-600 hover:text-brand-600 transition-colors">
               Authors
             </Link>
+            <Link href="/about" className="text-gray-600 hover:text-brand-600 transition-colors">
+              About
+            </Link>
           </nav>
         </div>
       </div>
