@@ -11,6 +11,10 @@ export default function PostCard({ post }: PostCardProps) {
   const author = post.metadata?.author
   const category = post.metadata?.category
   const title = getMetafieldValue(post.metadata?.title) || post.title
+  const authorName = author
+    ? getMetafieldValue(author.metadata?.name) || author.title
+    : null
+  const avatar = author?.metadata?.avatar
 
   return (
     <Link href={`/posts/${post.slug}`} className="group block">
@@ -38,9 +42,22 @@ export default function PostCard({ post }: PostCardProps) {
             {title}
           </h3>
           {author && (
-            <p className="mt-auto pt-4 text-sm text-gray-500">
-              By {getMetafieldValue(author.metadata?.name) || author.title}
-            </p>
+            <div className="mt-auto pt-4 flex items-center gap-2">
+              {avatar ? (
+                <img
+                  src={`${avatar.imgix_url}?w=64&h=64&fit=crop&auto=format,compress`}
+                  alt={authorName ?? ''}
+                  width={32}
+                  height={32}
+                  className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0 text-sm">
+                  👤
+                </div>
+              )}
+              <p className="text-sm text-gray-500">By {authorName}</p>
+            </div>
           )}
         </div>
       </article>
