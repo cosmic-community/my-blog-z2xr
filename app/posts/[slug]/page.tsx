@@ -1,6 +1,7 @@
 // app/posts/[slug]/page.tsx
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { marked } from 'marked'
 import { getPost, getMetafieldValue, normalizeTags } from '@/lib/cosmic'
 
 export const revalidate = 60
@@ -20,7 +21,10 @@ export default async function PostPage({
   const featuredImage = post.metadata?.featured_image
   const author = post.metadata?.author
   const category = post.metadata?.category
-  const content = getMetafieldValue(post.metadata?.content)
+  const rawContent = getMetafieldValue(post.metadata?.content)
+  const content = rawContent
+    ? marked.parse(rawContent, { async: false })
+    : ''
   const title = getMetafieldValue(post.metadata?.title) || post.title
   const tags = normalizeTags(post.metadata?.tags)
 
